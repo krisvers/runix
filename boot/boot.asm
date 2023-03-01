@@ -79,7 +79,7 @@ start:
 ; setup video mode
 	;	0x03: text mode 80x25, 16 FG colors, 16 BG colors
 	mov ah, 0x00
-	mov al, 0x13
+	mov al, 0x03
 	int 0x10
 
 ; hide cursor

@@ -89,4 +89,11 @@ void gdt_load(GDTDescriptor * descriptor, uint16_t codeSegment, uint16_t dataSeg
 
 void gdt_init() {
     gdt_load(&g_GDTDescriptor, GDT_CODE_SEGMENT, GDT_DATA_SEGMENT);
+    putcolor(LIGHT_GREY);
+    printf("gdt initialized [");
+    putcolor(GREEN);
+    printf("*");
+    putcolor(LIGHT_GREY);
+    printf("]\n\t");
+    printf("desc: %x\n", &g_GDTDescriptor);
 }

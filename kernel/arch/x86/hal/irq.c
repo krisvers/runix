@@ -10,6 +10,7 @@ void irq_handler(Registers * regs) {
 	if (irq_handlers[irq] != NULL) {
 		irq_handlers[irq](regs);
 	} else {
+		printf("Unhandled IRQ %d\n", irq);
 		pic_send_eoi();
 	}
 }
@@ -25,9 +26,21 @@ void irq_init() {
 	}
 
 	enable_interrupts();
+
+    putcolor(LIGHT_GREY);
+    printf("irq initialized [");
+    putcolor(GREEN);
+    printf("*");
+    putcolor(LIGHT_GREY);
+    printf("]\n");
 }
 
 void irq_reg_handler(int irq, IRQHandler handler) {
 	irq_handlers[irq] = handler;
     pic_unmask(irq);
+    putcolor(LIGHT_GREY);
+    printf("\tirq registered:\t");
+    putcolor(GREEN);
+    printf("%x\n", irq);
+    putcolor(LIGHT_GREY);
 }
