@@ -1,10 +1,10 @@
 #include <arch/x86/drivers/keyboard.h>
 
-static char buffer[256];
+static char buffer[255];
 static uint8_t index = 0;
 
 static bool ps2_wait_read() {
-    for (uint32_t i = 0; i < 0xFFFFF; i++) {
+    for (uint32_t i = 0; i < 0x10000; i++) {
         if ((inb(0x64) & 0x1) == 0x0) {
             return true;
         }
@@ -40,8 +40,8 @@ static char keycodes[128] = {
 
 static char keycodes_shift[128] = {
     0,   27,  '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_',  '+', '\b', '\t',                                                    /* <-- Tab */
-    'Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', '{', '}', '\n', 0,                                                                  /* <-- control key */
-    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '?', 0,   0,    '|', 'Z',  'X',  'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0, '*', 0, /* Alt */
+    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '\n', 0,                                                                  /* <-- control key */
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 0,   0,    '|', 'Z',  'X',  'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0, '*', 0, /* Alt */
     ' ',                                                                                                                                  /* Space bar */
     0,                                                                                                                                    /* Caps lock */
     0,                                                                                                                                    /* 59 - F1 key ... > */
@@ -67,6 +67,7 @@ static bool shift_pressed = false;
 
 static char poll_key_char() {
 	char keycode = inb(0x60);
+	char up_flag = keycode & 200;
 	if ((keycode == 0x2A) || (keycode == 0x36)) {
 		return -2;
 	}

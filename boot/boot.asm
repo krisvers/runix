@@ -1,8 +1,9 @@
 [bits 16]
 org 0x7C00
 
-%define KERN_SIZE 0x3B
-%define KERN_OFFSET 0x502
+%define KERN_SIZE 0xDF
+%define KERN_OFFSET 0x7E00
+%define INFO_OFFSET 0x500
 
 start:
 	jmp .skip_bpb ; Workaround for some BIOSes that require this stub
@@ -70,10 +71,10 @@ start:
 	mov es, bx		; 
 	mov bx, KERN_OFFSET	; [es:bx] = [0x0:KERN_OFFSET]; where we load the kernel
 	int 0x13
-	jnc .vid
-	clc
+	;jnc .vid
+	;clc
 
-	jmp error
+	;jmp error
 	
 	.vid:
 ; setup video mode
@@ -104,9 +105,16 @@ start:
 ; pci mechanism
 	mov eax, 0xB101
 	int 0x1A
-	mov byte [0x500], cl	; number of devices
-	mov byte [0x501], al	; mechanism to access PCI
+	cmp edx, " ICP"
+	jnz .load_gdt	; no pci
+	mov byte [0x500], 0b10000000
+	add byte [0x500], cl
+	mov byte [0x501], al
 
+; memory map
+	
+
+.load_gdt:
 ; load GDT
 	cli
 	lgdt [gdtr]

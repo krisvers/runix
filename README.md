@@ -20,8 +20,9 @@ Current state:
 
 ### Up next:
 
-- virtio driver
-- PCI driver
 - Bitmap allocator
+- VMM
+- virtio driver
 - Disk driver
+- PCI driver
 - Filesystem of some sort

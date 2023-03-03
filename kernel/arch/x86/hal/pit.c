@@ -3,8 +3,9 @@
 static size_t mseconds = 0;
 
 static void timer_handler(Registers * regs) {
-    mseconds++;
     pic_send_eoi();
+    mseconds++;
+    //putc('.');
 }
 
 void pit_set_freq(size_t hz) {

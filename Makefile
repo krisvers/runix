@@ -18,8 +18,7 @@ build:
 	@touch $(DIR)/build/bin/boot.bin
 	@nasm ./boot/boot.asm -f bin -o ./build/bin/boot.bin
 	@echo ">  Creating disk image..."
-	@dd if=build/bin/boot.bin of=build/img/disk.img
-	@dd if=build/bin/kernel.bin of=build/img/disk.img conv=notrunc seek=512 bs=1
+	@cat build/bin/boot.bin build/bin/kernel.bin > build/img/disk.img
 
 clean:
 	rm -rf build
