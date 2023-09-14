@@ -1,34 +1,22 @@
-ENTRY(_kernelentry)
+ENTRY(kernel)
 
-KERNEL_BASE = 0x502;
-
-MEMORY
+SECTIONS
 {
-	ram (rwx) : org = KERNEL_BASE, l = 25600
-}
-
-SECTIONS {
-	. = KERNEL_BASE;
-
-	.entry (KERNEL_BASE) : {
-		*(.entry)
-	} > ram
+	. = 0x7E00;
 
 	.text : {
 		*(.text)
-	} > ram
+	}
 
-	.rodata : {
-		*(.rodata)
-	} > ram
-
-	.data : {
+	.data ALIGN(4096) : {
 		*(.data)
-	} > ram
+	}
 
-	.bss : {
-		_BSS_START = ABSOLUTE(.);
+	.rodata ALIGN(4096) : {
+		*(.rodata)
+	}
+
+	.bss ALIGN(4096) : {
 		*(.bss)
-		_BSS_END = ABSOLUTE(.);
-	} > ram
+	}
 }
