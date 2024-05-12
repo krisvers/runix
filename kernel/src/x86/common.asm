@@ -10,6 +10,13 @@ int_disable:
 	cli
 	ret
 
+global int_is_enabled
+int_is_enabled:
+	pushf
+	pop ax
+	and eax, 0x0200
+	ret
+
 global nmi_enable
 nmi_enable:
 	push ax
@@ -134,3 +141,14 @@ outd:
 
 	pop ebp
 	ret
+
+global iowait
+iowait:
+	mov al, 0x00
+	out 0x80, al
+	ret
+
+global abort
+abort:
+	cli
+	hlt

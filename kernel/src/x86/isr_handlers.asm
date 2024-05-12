@@ -1,13 +1,28 @@
 [bits 32]
 
-extern isr_common
+extern isr_handler
+
+RETURN_ADDR: dd 0
+
+isr_common:
+	pusha
+	push esp
+
+	call isr_handler
+
+	add esp, 4
+	popa
+	jmp dword [RETURN_ADDR]
 
 %macro ISR_HANDLER 1
 
 global isr_handler_%1:
 isr_handler_%1:
 	push %1
-	call isr_common
+	mov dword [RETURN_ADDR], isr_handler_return_%1
+	jmp isr_common
+isr_handler_return_%1:
+	add esp, 4
 	iretd
 
 %endmacro

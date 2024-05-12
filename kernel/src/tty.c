@@ -13,7 +13,7 @@ void tty_putc(char c, unsigned char color) {
 	}
 
 	parallel_write(c);
-	if (c >= '!' && c <= '~') {
+	if ((c >= '!' && c <= '~') || c == ' ') {
 		vmem_address[(tty_x + tty_y * tty_width) * 2] = c;
 		vmem_address[(tty_x + tty_y * tty_width) * 2 + 1] = color;
 	} else if (c == '\n') {

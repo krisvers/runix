@@ -114,10 +114,11 @@ start:
 ; set up segment registers
 	mov ax, 0x10
 	mov ds, ax
-	mov fs, ax
-	mov gs, ax
 	mov es, ax
 	mov ss, ax
+	xor ax, ax
+	mov fs, ax
+	mov gs, ax
 	mov esp, 0x7FFF0 ; stack pointer at ~511KiB
 
 	jmp dword 0x8:KERN_OFFSET
