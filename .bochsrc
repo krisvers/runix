@@ -1,0 +1,8 @@
+floppya: 1_44="disk.img", status=inserted
+boot: floppy
+
+megs: 128
+romimage: file=/usr/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+mouse: enabled=0
+display_library: x, options="gui_debug"
